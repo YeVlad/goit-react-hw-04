@@ -1,0 +1,11 @@
+* {
+  box-sizing: border-box;
+}
+
+.footer {
+  background: rgb(157, 157, 250);
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
