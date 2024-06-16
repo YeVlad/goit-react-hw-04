@@ -1,0 +1,37 @@
+ul {
+  list-style-type: none;
+}
+
+.gallery {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+
+  margin-top: 30px;
+}
+
+.photo-div {
+  width: 420px;
+  height: 280px;
+  overflow: hidden;
+}
+
+.cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.raw-for-load-more-but,
+.loading-area,
+.error-area {
+  display: flex;
+  justify-content: center;
+}
+
+.load-more-but {
+  width: 100px;
+}
