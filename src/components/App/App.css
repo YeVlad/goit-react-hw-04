@@ -35,3 +35,10 @@ ul {
 .load-more-but {
   width: 100px;
 }
+
+.modalWind {
+  width: 500px;
+  height: 500px;
+  object-fit: cover;
+  object-position: center;
+}
