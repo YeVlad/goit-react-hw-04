@@ -1,10 +1,6 @@
 import ImageCard from "../ImageCard/ImageCard";
 
-export default function ImageGallery({
-  serverResponse,
-  setmodalPic,
-  setIsOpen,
-}) {
+export default function ImageGallery({ serverResponse, openModal }) {
   return (
     <>
       <ul className="gallery">
@@ -13,9 +9,9 @@ export default function ImageGallery({
             <li key={oneElement.id} id={oneElement.id}>
               <ImageCard
                 link={oneElement.urls.small}
+                altDesc={oneElement.alt_description}
                 regPicture={oneElement.urls.regular}
-                setmodalPic={setmodalPic}
-                setIsOpen={setIsOpen}
+                openModal={openModal}
               />
             </li>
           );

@@ -1,16 +1,16 @@
-export default function ImageCard({
-  link,
-  regPicture,
-  setmodalPic,
-  setIsOpen,
-}) {
-  function openModal() {
-    setmodalPic(regPicture);
-    setIsOpen(true);
+export default function ImageCard({ link, altDesc, regPicture, openModal }) {
+  function clickOnImg() {
+    openModal(regPicture);
   }
+
   return (
     <div className="photo-div">
-      <img className="cover-image" src={link} onClick={openModal} />
+      <img
+        className="cover-image"
+        src={link}
+        onClick={clickOnImg}
+        alt={altDesc}
+      />
     </div>
   );
 }

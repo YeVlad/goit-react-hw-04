@@ -1,20 +1,8 @@
 import { Formik, Form, Field } from "formik";
 // , ErrorMessage
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
-export default function SearchForm({ setsearchWord, setPage }) {
-  function handleSubmit(values, actions) {
-    if (values.keyWord.trim().length > 0) {
-      setPage(1);
-      setsearchWord(values.keyWord);
-      actions.resetForm();
-    } else {
-      const notifyEmpty = () =>
-        toast("Sorry, but you must write something in the textarea");
-      notifyEmpty();
-    }
-  }
-
+export default function SearchForm({ handleSubmit }) {
   return (
     <Formik
       initialValues={{

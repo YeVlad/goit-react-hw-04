@@ -1,8 +1,4 @@
-export default function LoadMoreBut({ setPage, page }) {
-  function handleLoadMore() {
-    setPage(page + 1);
-  }
-
+export default function LoadMoreBut({ handleLoadMore }) {
   return (
     <div className="raw-for-load-more-but">
       <button className="load-more-but" onClick={handleLoadMore}>

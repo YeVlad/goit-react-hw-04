@@ -2,7 +2,7 @@ import "./App.css";
 
 import SearchForm from "../SearchForm/SearchForm";
 import ImageGallery from "../ImageGallery/ImageGallery";
-import LoadMoreBut from "../LoadMoreBut/LoadMoreBut";
+import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "../ImageModal/ImageModal";
 
 import Loader from "../Loader/Loader";
@@ -11,6 +11,7 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { useState, useEffect } from "react";
 
 import axios from "axios";
+import toast from "react-hot-toast";
 
 function App() {
   const [searchWord, setsearchWord] = useState("");
@@ -24,8 +25,6 @@ function App() {
   const [modalPic, setmodalPic] = useState("");
 
   useEffect(() => {
-    console.log(modalIsOpen);
-
     if (searchWord) {
       const getData = async () => {
         try {
@@ -44,6 +43,7 @@ function App() {
           const url = "https://api.unsplash.com/search/photos";
 
           const response = await axios.get(url, { params });
+          console.log(response.data.results);
 
           setserverResponse((prev) => {
             return [...prev, ...response.data.results];
@@ -58,24 +58,41 @@ function App() {
     }
   }, [searchWord, page]);
 
+  function handleSubmit(values, actions) {
+    if (values.keyWord.trim().length > 0) {
+      setPage(1);
+      setsearchWord(values.keyWord);
+      actions.resetForm();
+    } else {
+      const notifyEmpty = () =>
+        toast("Sorry, but you must write something in the textarea");
+      notifyEmpty();
+    }
+  }
+
+  function openModal(regPicture) {
+    setmodalPic(regPicture);
+    setIsOpen(true);
+  }
+
+  function handleLoadMore() {
+    setPage(page + 1);
+  }
+
   function closeModal() {
     setIsOpen(false);
   }
 
   return (
     <>
-      <SearchForm setsearchWord={setsearchWord} setPage={setPage} />
+      <SearchForm handleSubmit={handleSubmit} />
       {serverResponse.length > 0 && (
-        <ImageGallery
-          serverResponse={serverResponse}
-          setmodalPic={setmodalPic}
-          setIsOpen={setIsOpen}
-        />
+        <ImageGallery serverResponse={serverResponse} openModal={openModal} />
       )}
       {load && <Loader />}
       {error && <ErrorMessage />}
       {serverResponse.length > 0 && (
-        <LoadMoreBut setPage={setPage} page={page} />
+        <LoadMoreBtn handleLoadMore={handleLoadMore} />
       )}
       {modalIsOpen && (
         <ImageModal
