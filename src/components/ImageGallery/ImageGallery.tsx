@@ -1,6 +1,20 @@
 import ImageCard from "../ImageCard/ImageCard";
 
-export default function ImageGallery({ serverResponse, openModal }) {
+type ServerResponseItem = {
+  id: string;
+  urls: {
+    small: string;
+    regular: string;
+  };
+  alt_description: string;
+};
+
+type Props = {
+  serverResponse: ServerResponseItem[];
+  openModal: (regPicture: string) => void;
+};
+
+export default function ImageGallery({ serverResponse, openModal }:Props):React.ReactElement {
   return (
     <>
       <ul className="gallery">

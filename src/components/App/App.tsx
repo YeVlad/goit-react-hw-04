@@ -13,39 +13,59 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-function App() {
-  const [searchWord, setsearchWord] = useState("");
-  const [serverResponse, setserverResponse] = useState([]);
-  const [page, setPage] = useState(1);
+type ServerResponseItem = {
+  id: string;
+  urls: {
+    small: string;
+    regular: string;
+  };
+  alt_description: string;
+};
 
-  const [error, setError] = useState(false);
-  const [load, setLoad] = useState(false);
+type ParamsForRequest = {
+  query: string;
+  per_page: number;
+  page: number;
+  client_id: string;
+};
 
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const [modalPic, setmodalPic] = useState("");
+type Values = {
+  keyWord: string;
+};
+
+function App(): React.ReactElement {
+  const [searchWord, setSearchWord] = useState<string>("");
+  const [serverResponse, setServerResponse] = useState<ServerResponseItem[]>([]);
+  const [page, setPage] = useState<number>(1);
+
+  const [error, setError] = useState<boolean>(false);
+  const [load, setLoad] = useState<boolean>(false);
+
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
+  const [modalPic, setModalPic] = useState<string>("");
 
   useEffect(() => {
     if (searchWord) {
-      const getData = async () => {
+      const getData = async (): Promise<void> => {
         try {
           setError(false);
           setLoad(true);
           if (page === 1) {
-            setserverResponse([]);
+            setServerResponse([]);
           }
 
-          const params = {
+          const params: ParamsForRequest = {
             query: searchWord,
             per_page: 3,
             page,
             client_id: "Zyv9YRAXEBUm6boWegYjry307ikEWlIWycIU_HdxBQU",
           };
-          const url = "https://api.unsplash.com/search/photos";
+
+          const url: string = "https://api.unsplash.com/search/photos";
 
           const response = await axios.get(url, { params });
-          console.log(response.data.results);
 
-          setserverResponse((prev) => {
+          setServerResponse((prev) => {
             return [...prev, ...response.data.results];
           });
         } catch {
@@ -58,28 +78,30 @@ function App() {
     }
   }, [searchWord, page]);
 
-  function handleSubmit(values, actions) {
+  function handleSubmit(values: Values, actions: any): void {
     if (values.keyWord.trim().length > 0) {
       setPage(1);
-      setsearchWord(values.keyWord);
+      setSearchWord(values.keyWord);
       actions.resetForm();
     } else {
-      const notifyEmpty = () =>
-        toast("Sorry, but you must write something in the textarea");
+      const notifyEmpty = (): void => {
+        const message: string = "Sorry, but you must write something in the textarea";
+        toast(message);
+      };
       notifyEmpty();
     }
   }
 
-  function openModal(regPicture) {
-    setmodalPic(regPicture);
+  function openModal(regPicture: string): void {
+    setModalPic(regPicture);
     setIsOpen(true);
   }
 
-  function handleLoadMore() {
+  function handleLoadMore(): void {
     setPage(page + 1);
   }
 
-  function closeModal() {
+  function closeModal(): void {
     setIsOpen(false);
   }
 

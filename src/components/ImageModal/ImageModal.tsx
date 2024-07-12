@@ -1,6 +1,12 @@
 import Modal from "react-modal";
 
-export default function ImageModal({ modalIsOpen, closeModal, modalPic }) {
+type Props={
+  modalIsOpen:boolean,
+  closeModal:()=>void,
+  modalPic:string
+}
+
+export default function ImageModal({ modalIsOpen, closeModal, modalPic }:Props):React.ReactElement {
   Modal.setAppElement("#root");
 
   const customStyles = {
