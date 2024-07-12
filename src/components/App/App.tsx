@@ -102,13 +102,19 @@ function App(): React.ReactElement {
     setIsOpen(false);
   }
 
+
   return (
     <>
       <SearchForm handleSubmit={handleSubmit} />
       {serverResponse.length > 0 && (
         <ImageGallery serverResponse={serverResponse} openModal={openModal} />
       )}
-      {load && <Loader />}
+      {load && <Loader
+  height="100"
+  width="100"
+  color="blue"
+  ariaLabel="Loading"
+/>}
       {error && <ErrorMessage />}
       {serverResponse.length > 0 && (
         <LoadMoreBtn handleLoadMore={handleLoadMore} />
