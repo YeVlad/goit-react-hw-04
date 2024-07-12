@@ -63,13 +63,14 @@ function App(): React.ReactElement {
 
           const url: string = "https://api.unsplash.com/search/photos";
 
-          const response:object[]= await axios.get(url, { params });
+          const response = await axios.get(url, { params });
 
           setServerResponse((prev) => {
             return [...prev, ...response.data.results];
           });
-        } catch {
+        } catch (error) {
           setError(true);
+          toast.error("Failed to fetch data from server");
         } finally {
           setLoad(false);
         }
@@ -84,11 +85,7 @@ function App(): React.ReactElement {
       setSearchWord(values.keyWord);
       actions.resetForm();
     } else {
-      const notifyEmpty = (): void => {
-        const message: string = "Sorry, but you must write something in the textarea";
-        toast(message);
-      };
-      notifyEmpty();
+      toast.error("Sorry, but you must write something in the textarea");
     }
   }
 
