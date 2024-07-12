@@ -1,8 +1,12 @@
 import { Formik, Form, Field } from "formik";
 import { Toaster } from "react-hot-toast";
 
+type Values = {
+  keyWord: string;
+};
+
 type Props={
-  handleSubmit:()=>void;
+  handleSubmit:(values: Values, actions: any)=>void;
 }
 
 export default function SearchForm({ handleSubmit }:Props):React.ReactElement {
