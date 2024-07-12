@@ -63,7 +63,7 @@ function App(): React.ReactElement {
 
           const url: string = "https://api.unsplash.com/search/photos";
 
-          const response = await axios.get(url, { params });
+          const response:object[]= await axios.get(url, { params });
 
           setServerResponse((prev) => {
             return [...prev, ...response.data.results];
