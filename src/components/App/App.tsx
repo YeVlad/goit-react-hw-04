@@ -8,7 +8,7 @@ import ImageModal from "../ImageModal/ImageModal";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
-import { useState, useEffect } from "react";
+import React,{ useState, useEffect } from "react";
 
 import axios, { AxiosResponse } from 'axios';
 import toast from "react-hot-toast";
@@ -44,41 +44,41 @@ function App(): React.ReactElement {
   const [modalIsOpen, setIsOpen] = useState<boolean>(false);
   const [modalPic, setModalPic] = useState<string>("");
 
-  useEffect(() => {
-    if (searchWord) {
-      const getData = async (): Promise<void> => {
-        try {
-          setError(false);
-          setLoad(true);
-          if (page === 1) {
-            setServerResponse([]);
+  
+    useEffect(() => {
+      if (searchWord) {
+        const getData = async (): Promise<void> => {
+          try {
+            setError(false);
+            setLoad(true);
+            if (page === 1) {
+              setServerResponse([]);
+            }
+  
+            const params: ParamsForRequest = {
+              query: searchWord,
+              per_page: 3,
+              page,
+              client_id: "Zyv9YRAXEBUm6boWegYjry307ikEWlIWycIU_HdxBQU",
+            };
+  
+            const url: string = "https://api.unsplash.com/search/photos";
+  
+            const response = await axios.get(url, { params });
+  
+            setServerResponse((prev) => [...prev, ...response.data.results]);
+          } catch (error) {
+            setError(true);
+            toast.error("Failed to fetch data from server");
+          } finally {
+            setLoad(false);
           }
+        };
+  
+        getData();
+      }
+    }, [searchWord, page, setServerResponse, setError, setLoad]);
 
-          const params: ParamsForRequest = {
-            query: searchWord,
-            per_page: 3,
-            page,
-            client_id: "Zyv9YRAXEBUm6boWegYjry307ikEWlIWycIU_HdxBQU",
-          };
-
-          const url: string = "https://api.unsplash.com/search/photos";
-
-          const response:object = await axios.get(url, { params });          
-
-          setServerResponse((prev) => {
-            
-            return [...prev, ...response.data.results];
-          });
-        } catch (error) {
-          setError(true);
-          toast.error("Failed to fetch data from server");
-        } finally {
-          setLoad(false);
-        }
-      };
-      getData();
-    }
-  }, [searchWord, page]);
 
   function handleSubmit(values: Values, actions: any): void {
     if (values.keyWord.trim().length > 0) {
