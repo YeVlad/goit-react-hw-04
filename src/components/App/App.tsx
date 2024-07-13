@@ -62,9 +62,22 @@ function App(): React.ReactElement {
               client_id: "Zyv9YRAXEBUm6boWegYjry307ikEWlIWycIU_HdxBQU",
             };
   
+        
+          type ResponseResults = {
+              results: object[];
+          };
+          
+          type ResponseData = {
+              data: ResponseResults;
+          };
+          
+
             const url: string = "https://api.unsplash.com/search/photos";
   
-            const response = await axios.get(url, { params });
+            const response = await axios.get<ResponseData>(url, { params });
+            console.log(response);
+            
+            
   
             setServerResponse((prev) => [...prev, ...response.data.results]);
           } catch (error) {
