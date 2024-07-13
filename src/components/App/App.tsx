@@ -63,19 +63,25 @@ function App(): React.ReactElement {
             };
   
         
-          type ResponseResults = {
-              results: object[];
-          };
-          
-          type ResponseData = {
-              data: ResponseResults;
-          };
-          
+             interface Article {
+              id: string;
+              urls: {
+                small: string;
+                regular: string;
+              };
+              alt_description: string;
+            }
+            
+             interface Response {
+              results: Article[];
+              total: number;
+              total_pages: number;
+            }
 
             const url: string = "https://api.unsplash.com/search/photos";
   
-            const response = await axios.get<ResponseData>(url, { params });
-            console.log(response);
+            const response = await axios.get<Response>(url, { params });
+            console.log(response.data);
             
             
   
