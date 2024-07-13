@@ -63,12 +63,11 @@ function App(): React.ReactElement {
 
           const url: string = "https://api.unsplash.com/search/photos";
 
-          const response:unknown = await axios.get(url, { params });          
+          const response = await axios.get(url, { params });          
 
           setServerResponse((prev) => {
-          if (typeof(response)=="object"){ 
+            
             return [...prev, ...response.data.results];
-          }      
           });
         } catch (error) {
           setError(true);
